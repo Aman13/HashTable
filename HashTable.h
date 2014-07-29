@@ -31,6 +31,12 @@ public:
 
 	int loadFactor()	const;
 
+	std::vector<std::string> intersection(const HashTable & source);
+
+	std::vector<std::string> unions(const HashTable & source);
+
+	std::vector<std::string> difference(const HashTable & source);
+
 private:
 
 	LinkedList* table;
@@ -38,4 +44,5 @@ private:
 	int entries;
 
 	int hashfunction(std::string value);
+	int isitPrime(int n);
 };

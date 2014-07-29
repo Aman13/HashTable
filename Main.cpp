@@ -6,6 +6,7 @@
 #include <cmath>
 
 int main()	{
+/*
 	LinkedList ls;
 	ls.insert("apple");
 	ls.insert("corn");
@@ -79,7 +80,7 @@ int main()	{
 
 	std::cout << std::endl << std::endl << "A = " << a << std::endl;
 
-/*
+
 
 	LinkedList test[2];
 	test[0].insert("apple");
@@ -89,26 +90,30 @@ int main()	{
 	test[1].print();
 	test[0].print();
 	test[1].insert("herp");
+*/
 
-	HashTable tester;
-	tester.insert("test");
-	tester.insert("estt");
-	tester.insert("ttes");
+
+	HashTable tester(5);
+	tester.insert("apple");
+	tester.insert("orange");
+	tester.insert("banana");
 
 	std::cout <<"inserting in different key" << std::endl;
-	tester.insert("abcd");
-	tester.insert("dcba");
-	tester.insert("bcda");
+	tester.insert("grape");
+	tester.insert("melon");
+	tester.insert("plum");
 
-	HashTable test1(11);
-	test1.insert("work");
-	test1.insert("orkw");
-	test1.insert("rkwo");
-
-	test1.insert("abc");
-	test1.insert("cba");
-	test1.insert("bac");
+	HashTable test1(3);
+	int p = test1.maxSize();
+	std::cout << "Test1 array size: " << p << std::endl;
+	test1.insert("fox");
 	test1.insert("cat");
+	test1.insert("grape");
+
+	test1.insert("dog");
+	test1.insert("plum");
+	test1.insert("lion");
+	test1.insert("wolf");
 
 	int howmany;
 	howmany = test1.size();
@@ -117,5 +122,9 @@ int main()	{
 
 	test1.search("abc");
 	test1.search("dog");
-*/
+
+	tester.intersection(test1);
+	tester.unions(test1);
+	tester.difference(test1);
+
 }
