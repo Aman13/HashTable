@@ -22,16 +22,24 @@ LinkedList & LinkedList::operator= (const LinkedList & source)	{
 }
 
 bool LinkedList::insert(std::string value)	{
+	bool exists;
+	exists = search(value);
 	if(front == NULL)	{
 		front = new Node(value, this->front);
 		return true;
 	}else	{
-		Node* temp = front;
-		while(temp->next != NULL)	{
-			temp = temp->next;
-		}
-		temp->next = new Node(value, temp->next);
-		return true;
+		if(exists)	{
+			return false;
+			//cannot insert multiple
+
+		}else	{
+			Node* temp = front;
+			while(temp->next != NULL)	{
+				temp = temp->next;
+			}
+			temp->next = new Node(value, temp->next);
+			return true;
+		}	
 	}
 }
 
@@ -70,6 +78,7 @@ bool LinkedList::search(std::string value)	{
 			//value found
 			return true;
 		}
+		temp = temp->next;
 	}
 	//entry is not in list
 	return false;
@@ -81,6 +90,17 @@ void LinkedList::print()	const	{
 		std::cout << temp->data << std::endl;
 		temp = temp->next;
 	}
+}
+
+std::vector<std::string> LinkedList::get()	const	{
+	std::vector<std::string> myVector;
+	Node* temp = front;
+	while(temp != NULL)	{
+		myVector.push_back(temp->data);
+		temp = temp->next;
+	}
+	return myVector;
+
 }
 
 void LinkedList::deepCopy(const LinkedList & source)	{

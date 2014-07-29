@@ -3,6 +3,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <string>
+#include <vector>
+
 class LinkedList	{
 
 public:
@@ -23,7 +25,7 @@ public:
 
 	void print()	const;
 
-	//get
+	std::vector<std::string> get()	const;
 
 private:
 
