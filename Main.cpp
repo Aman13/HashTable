@@ -1,6 +1,6 @@
-//#include "HashTable.h"
+#include "HashTable.h"
 
-#include "LinkedList.h"
+//#include "LinkedList.h"
 #include <iostream>
 
 int main()	{
@@ -28,5 +28,24 @@ int main()	{
 	test[1].insert("derp");
 	test[1].print();
 	test[0].print();
-	return 0;
+
+	HashTable tester;
+	tester.insert("test");
+	tester.insert("estt");
+	tester.insert("ttes");
+
+	std::cout <<"inserting in different key" << std::endl;
+	tester.insert("abcd");
+	tester.insert("dcba");
+	tester.insert("bcda");
+
+	HashTable test1(11);
+	test1.insert("work");
+	test1.insert("orkw");
+	test1.insert("rkwo");
+
+	test1.insert("abc");
+	test1.insert("cba");
+	test1.insert("bac");
+
 }
