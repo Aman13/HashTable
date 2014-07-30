@@ -1,17 +1,27 @@
 #include "LinkedList.h"
 
+//Default Constructor
+//Post: Creates empty list
 LinkedList::LinkedList()	{
 	front = NULL;
 }
 
+//Copy Constructor
+//Param: Source is the list to be copied by the calling object
+//Post: creates an object that is a copy of Source
 LinkedList::LinkedList(const LinkedList & source) : front(NULL)	{
 	deepCopy(source);
 }
 
+//Destructor
+//Post: de allocates memory associated with the list
 LinkedList::~LinkedList()	{
 	deleteList();
 }
 
+//Overloaded assignment operator
+//Param: source is the object to be copied to the calling object
+//Post: Copies source to the calling boject. returns calling object.
 LinkedList & LinkedList::operator= (const LinkedList & source)	{
 	if(this != &source)	{
 		deleteList();
@@ -21,6 +31,9 @@ LinkedList & LinkedList::operator= (const LinkedList & source)	{
 	return *this;
 }
 
+//Inserts a element into the list if its not already in the linkedlist
+//Param: Value (string) to be inserted
+//Post: value is inserted at the back of the linked list if it doesnt already exist
 bool LinkedList::insert(std::string value)	{
 	bool exists;
 	exists = search(value);
@@ -43,6 +56,9 @@ bool LinkedList::insert(std::string value)	{
 	}
 }
 
+//Removes an element from the linked list if it exists
+//Param: the element to be removed
+//Post: returns true if value is removed, false if it did not exist in the list
 bool LinkedList::remove(std::string value)	{
 	Node* temp = front;
 	//Linked list is empty
@@ -71,6 +87,9 @@ bool LinkedList::remove(std::string value)	{
 	}
 }
 
+//Looks for a value (string) in the linked list
+//Param: value you are looking for
+//Post: return true if it is found, false if it does not exist in the list
 bool LinkedList::search(std::string value)	{
 	Node* temp = front;
 	while(temp != NULL)	{
@@ -84,6 +103,8 @@ bool LinkedList::search(std::string value)	{
 	return false;
 }
 
+//Prints the list from front to back
+//Post: prints out the list from front to back
 void LinkedList::print()	const	{
 	Node* temp = front;
 	while(temp != NULL)	{
@@ -92,6 +113,8 @@ void LinkedList::print()	const	{
 	}
 }
 
+//Puts the value of the linkedlist into a vector
+//Post: returns a vector holding all the values in the linkedlist
 std::vector<std::string> LinkedList::get()	const	{
 	std::vector<std::string> myVector;
 	Node* temp = front;
@@ -103,6 +126,10 @@ std::vector<std::string> LinkedList::get()	const	{
 
 }
 
+//Makes a deep copy of the deque.
+//Param: Source is the linked list to be copied
+//Pre: Calling linkedlist is empty
+//Post: Linked list contens are identical to the source
 void LinkedList::deepCopy(const LinkedList & source)	{
 	if(source.front == NULL)	{
 		this->front = NULL;
@@ -115,6 +142,8 @@ void LinkedList::deepCopy(const LinkedList & source)	{
 	}
 }
 
+//Removes all elements from the linkedlist and deallocates dynamic memory
+//Post: Linkedlist is empty
 void LinkedList::deleteList()	{
 	Node* temp = front;
 	while(temp != NULL)	{

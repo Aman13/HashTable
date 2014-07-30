@@ -1,12 +1,15 @@
 #include "HashTable.h"
 
+//Default constructor
+//Creates a new hash table with size 101
 HashTable::HashTable()	{
-	std::cout << "Hash table constructor" << std::endl;
 	this->table = new LinkedList[101];
 	this->prime = 101;
 	this->entries = 0;
 }
-
+//Constructor with given size
+//Param: size of table you want
+//Post: Creates a table atleast 2 times bigger than the value given, and is prime
 HashTable::HashTable(int n)	{
 	n = isitPrime(n);
 	this->table = new LinkedList[n];
@@ -14,10 +17,15 @@ HashTable::HashTable(int n)	{
 	this->entries = 0;
 }
 
+//destructor
+//Post: Frees memory assocaited with the deleted table
 HashTable::~HashTable()	{
 	deleteTable();
 }
 
+//Overloaded assignment operator
+//Param: Souce is the hashtable to be copied
+//Post: Copies the source to the calling object. Returns calling object
 HashTable::HashTable(const HashTable & source)	{
 	copyTable(source);
 }
@@ -28,15 +36,17 @@ HashTable & HashTable::operator= (const HashTable & source)	{
 		deleteTable();
 		copyTable(source);
 	}
-	
 	return *this;
 }
 
-
+//Inserts a value into the hashtable if it doesnt already exist
+//Param: the value to be inserted
+//Post Value is inserted in its proper position returns true, if it already exist in table
+// it does not insert and returns false
 bool HashTable::insert(std::string value)	{
-	std::cout <<"Hash table insert" << std::endl;
 	int key;
 	bool added;
+	//gets the key value for the string to be entered
 	key = hashfunction(value);
 	added = this->table[key].insert(value);
 	this->table[key].print();
@@ -46,8 +56,11 @@ bool HashTable::insert(std::string value)	{
 	return added;
 }
 
+//Removes a value from the hashtable if it exists
+//Param: the value to be removed
+//Post: Value is removed and true is returned, if it did not exist
+//in the table false is returned
 bool HashTable::remove(std::string value)	{
-	std::cout <<"Hash table remove" << std::endl;
 	int key;
 	bool removed;
 	key = hashfunction(value);
@@ -58,20 +71,24 @@ bool HashTable::remove(std::string value)	{
 	return removed;
 }
 
+//Takes the value of each letter of the entry and returns a key
+//Param: value to be inserted
+//Post: returns a int which is the key for the entry
 int HashTable::hashfunction(std::string value)	{
-	std::cout <<"Hash table hasfunction" << std::endl;
 	int hash = 0;
 	int index = 0;
 	
 	index = value.length();
-
+	//Calculates key value using horners method
 	for(int i = 0; i < index; i++)	{
 		hash = (32 * hash + (value[i] - 96)) % this->prime;
 	}
-	std::cout <<"Hash value is: " << hash << std::endl;
 	return hash;
 }
 
+//Searches the table for a value
+//Param: the value you are looking for
+//Post: if value is found returns true, if not found returns false
 bool HashTable::search(std::string value)	{
 	int key;
 	bool found;
@@ -81,20 +98,29 @@ bool HashTable::search(std::string value)	{
 	return found;
 }
 
+//Tells user how many entries are in the table
+//Post: returns an int containing the amount of entries
 int HashTable::size()	const {
 	return this->entries;
 }
 
+//Tells the user how many "buckets" are in the table
+//Post: returns the number of array positions in the table
 int HashTable::maxSize()	const {
 	return this->prime;
 }
 
+//Tells the user the load factor of the hash table
+//Post: returns the Load factor as an INT
 int HashTable::loadFactor()	const {
 	int temp;
 	temp = this->entries/this->prime;
 	return temp;
 }
 
+//Checks if a number is prime, if not finds the next largest prime number
+//Param: number to check if its prime
+//Post: returns a prime number
 int HashTable::isitPrime(int n)	{
 	bool pNum = false;
 	if(n == 0)	{
@@ -104,7 +130,7 @@ int HashTable::isitPrime(int n)	{
 	while(pNum == false)	{
 		pNum = true;
 
-		for(int i = 2; i < sqrt(n); i++)	{
+		for(int i = 2; i < n; i++)	{
 			if(n % i == 0)	{
 				pNum = false;
 			}
@@ -116,24 +142,25 @@ int HashTable::isitPrime(int n)	{
 	return n;
 }
 
+//Finds the intersection values of the calling object and its parameter
+//Param:Calling object  is compared with the parameter source
+//Post: returns a vector final containing all the values that intersect the two tables
 std::vector<std::string> HashTable::intersection(const HashTable & source)	const {
 	std::vector<std::string> main;
 	std::vector<std::string> copy;
 	std::vector<std::string> temp;
 	std::vector<std::string> final;
-
+	//Makes a vector main containing all the calling objects value
 	for(int i = 0; i < this->prime; i++)	{
 		temp = this->table[i].get();
 		main.insert(main.end(), temp.begin(), temp.end());
 	}
-
+	//makes the vector copy containing all the parameter values 
 	for(int j = 0; j < source.prime; j++)	{
 		temp = source.table[j].get();
 		copy.insert(copy.end(), temp.begin(), temp.end());
 	}
-
-	std::cout << "main and copy vectors have been created" << std::endl;
-
+	//Compares the two vectors and puts the value that are intersecting into the vector final
 	for(unsigned int v = 0; v < main.size(); v++)	{
 		for(unsigned int w = 0; w < copy.size(); w++)	{
 			if(main[v] == copy[w])	{
@@ -142,54 +169,32 @@ std::vector<std::string> HashTable::intersection(const HashTable & source)	const
 		}
 	}
 
-	std::cout << std::endl << "Main contains " << main.size() << " entries" << std::endl
-	<< "those entries are: " << std::endl;
-	
-	for(unsigned int a = 0; a < main.size(); a++)	{
-		std::cout << main[a] << " ";
-	}
-
-
-	std::cout << std::endl << "Source contains: " << copy.size() << " entries" << std::endl
-	<< "those entries are: " << std::endl;
-
-	for(unsigned int c = 0; c < copy.size(); c++)	{
-		std::cout << copy[c] << " ";
-	}
-
-	std::cout << std::endl << "Final contains: " << final.size() << " entries" << std::endl
-	<< "those entries are: " << std::endl;
-
-	for(unsigned int b = 0; b < final.size(); b++)	{
-		std::cout << final[b] << " ";
-	}
-
-
-
 	return final;
 
 }
 
+//Creates a vector containing unioned values of the calling object and parameter.
+//Param: Calling object is compared with the parameter source.
+//Post: returns a vector final containing the unioned values of the calling object and source
 std::vector<std::string> HashTable::unions(const HashTable & source)	const {
 	std::vector<std::string> main;
 	std::vector<std::string> copy;
 	std::vector<std::string> temp;
 	std::vector<std::string> final;
-
+	//Vector main contains the calling objects values
 	for(int i = 0; i < this->prime; i++)	{
 		temp = this->table[i].get();
 		main.insert(main.end(), temp.begin(), temp.end());
 	}
-
+	//Vector copy contains the parameter source values
 	for(int j = 0; j < source.prime; j++)	{
 		temp = source.table[j].get();
 		copy.insert(copy.end(), temp.begin(), temp.end());
 	}
 
-	std::cout << "main and copy vectors have been created" << std::endl;
 	final = copy;
 	bool duplicate = false;
-
+	//Vector final is given the union of the two vectors main and copy
 	for(unsigned int v = 0; v < main.size(); v++)	{
 		for(unsigned int w = 0; w < copy.size(); w++)	{
 			if(main[v] == copy[w])	{
@@ -202,48 +207,29 @@ std::vector<std::string> HashTable::unions(const HashTable & source)	const {
 		duplicate = false;
 	}
 
-
-	std::cout << std::endl << "Main contains " << main.size() << " entries" << std::endl
-	<< "those entries are: " << std::endl;
-	
-	for(unsigned int a = 0; a < main.size(); a++)	{
-		std::cout << main[a] << " ";
-	}
-
-
-	std::cout << std::endl << "Source contains: " << copy.size() << " entries" << std::endl
-	<< "those entries are: " << std::endl;
-
-	for(unsigned int c = 0; c < copy.size(); c++)	{
-		std::cout << copy[c] << " ";
-	}
-
-	std::cout << std::endl << "Final contains: " << final.size() << " entries" << std::endl
-	<< "those entries are: " << std::endl;
-
-	for(unsigned int b = 0; b < final.size(); b++)	{
-		std::cout << final[b] << " ";
-	}
-
 	return final;
 }
 
+//Creates a vector containing the difference between the calling object and the parameter source
+//Param: Calling object is compared with the parameter source
+//Post:the vector final is returned containing the difference values of the calling object and parameter
 std::vector<std::string> HashTable::difference(const HashTable & source)	const {
 	std::vector<std::string> main;
 	std::vector<std::string> copy;
 	std::vector<std::string> temp;
 	std::vector<std::string> final;
-
+	//Vector main contains the calling object values
 	for(int i = 0; i < this->prime; i++)	{
 		temp = this->table[i].get();
 		main.insert(main.end(), temp.begin(), temp.end());
 	}
-
+	//Vector copy contains the parameter source values
 	for(int j = 0; j < source.prime; j++)	{
 		temp = source.table[j].get();
 		copy.insert(copy.end(), temp.begin(), temp.end());
 	}
 	bool duplicate = false;
+	//Vector final is given the difference of vector main and copy
 	for(unsigned int v = 0; v < main.size(); v++)	{
 		for(unsigned int w = 0; w < copy.size(); w++)	{
 			if(main[v] == copy[w])	{
@@ -256,39 +242,21 @@ std::vector<std::string> HashTable::difference(const HashTable & source)	const {
 		duplicate = false;
 	}
 
-
-	std::cout << std::endl << "Main contains " << main.size() << " entries" << std::endl
-	<< "those entries are: " << std::endl;
-	
-	for(unsigned int a = 0; a < main.size(); a++)	{
-		std::cout << main[a] << " ";
-	}
-
-
-	std::cout << std::endl << "Source contains: " << copy.size() << " entries" << std::endl
-	<< "those entries are: " << std::endl;
-
-	for(unsigned int c = 0; c < copy.size(); c++)	{
-		std::cout << copy[c] << " ";
-	}
-
-	std::cout << std::endl << "Final contains: " << final.size() << " entries" << std::endl
-	<< "those entries are: " << std::endl;
-
-	for(unsigned int b = 0; b < final.size(); b++)	{
-		std::cout << final[b] << " ";
-	}
-
 	return final;
 
 }
 
+//Deletes each of the linked list one at a time of the hash table
+//Post: de-allocates the memory associated with the hash table
 void HashTable::deleteTable()	{
 	for(int i = 0; i < this->prime; i++)	{
 		this->table[i].deleteList();
 	}
 }
-
+//Copies the values from the source hashtable into the calling object
+//Param: Source is the table to be copied
+//Pre: calling table is empty
+//Post: calling table contents are identicle to source
 void HashTable::copyTable(const HashTable & source)	{
 	std::vector<std::string> temp;
 	std::string s1;
@@ -296,7 +264,8 @@ void HashTable::copyTable(const HashTable & source)	{
 	this->prime = source.prime;
 	this->entries = source.entries;
 	this->table = new LinkedList[this->prime];
-
+	//Goes through every bucket of the source and puts the values into a vector
+	//Those strings are then added into the calling object
 	for(int j = 0; j < source.prime; j++)	{
 		temp = source.table[j].get();
 		if(temp.size() > 0)	{
