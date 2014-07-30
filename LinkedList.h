@@ -25,6 +25,10 @@ public:
 
 	void print()	const;
 
+	void deleteList();
+
+	void deepCopy(const LinkedList & source);
+
 	std::vector<std::string> get()	const;
 
 private:
@@ -39,6 +43,4 @@ private:
 	};
 
 	Node* front;
-	void deepCopy(const LinkedList & source);
-	void deleteList();
 };

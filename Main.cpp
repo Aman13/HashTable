@@ -5,7 +5,136 @@
 #include <vector>
 #include <cmath>
 
+using namespace std;
+ /*
 int main()	{
+	std::cout << "start" << std::endl << " ----------------------" << std::endl;
+
+  HashTable ht1(9);
+  ht1.insert("bat");
+  ht1.insert("cat");
+  ht1.insert("rhinoceros");
+  ht1.insert("ocelot");
+  ht1.insert("elephant");
+  ht1.insert("hippopotamus");
+  ht1.insert("giraffe");
+  ht1.insert("camel");
+  ht1.insert("lion");
+  ht1.insert("panther");
+  ht1.insert("bear");
+  ht1.insert("wolf");
+ 
+  // search
+  cout << "search" << endl;
+  string test1 = "frog";
+  string test2 = "camel";
+  cout << test1 << ": " << ht1.search(test1) << endl;
+  cout << test2 << ": " << ht1.search(test2) << endl;
+ 
+  // copy constructor and remove
+  HashTable ht2(ht1);
+  ht2.remove("ocelot");
+  ht2.remove("camel");
+  ht2.remove("rhinoceros");
+ 
+  // set difference
+  cout << endl << "set difference" << endl;
+  vector<string> difference = ht1.difference(ht2);
+  for(unsigned int i=0; i < difference.size(); ++i){
+         cout << difference[i] << endl;
+  }
+  return 0;
+}
+*/
+
+int main()	{
+
+		std::cout << "start" << std::endl << " ----------------------" << std::endl;
+
+  HashTable ht1(9);
+  ht1.insert("bat");
+  ht1.insert("cat");
+  ht1.insert("rhinoceros");
+  ht1.insert("ocelot");
+  ht1.insert("elephant");
+  ht1.insert("hippopotamus");
+  ht1.insert("giraffe");
+  ht1.insert("camel");
+  ht1.insert("lion");
+  ht1.insert("panther");
+  ht1.insert("bear");
+  ht1.insert("wolf");
+ 
+  // search
+  cout << "search" << endl;
+  string test1 = "frog";
+  string test2 = "camel";
+  cout << test1 << ": " << ht1.search(test1) << endl;
+  cout << test2 << ": " << ht1.search(test2) << endl;
+ 
+  // copy constructor and remove
+  HashTable ht2(ht1);
+  ht2.remove("ocelot");
+  ht2.remove("camel");
+  ht2.remove("rhinoceros");
+ 
+  // set difference
+  cout << endl << "set difference" << endl;
+  vector<string> difference = ht1.difference(ht2);
+  for(unsigned int i=0; i < difference.size(); ++i){
+         cout << difference[i] << endl;
+  }
+  return 0;
+/*
+	std::cout << "start" << std::endl << " ----------------------" << std::endl;
+
+  HashTable ht1(9);
+  ht1.insert("bat");
+  ht1.insert("cat");
+  ht1.insert("rhinoceros");
+  ht1.insert("ocelot");
+ // ht1.insert("elephant");
+ // ht1.insert("hippopotamus");
+ // ht1.insert("giraffe");
+  ht1.insert("camel");
+  ht1.insert("lion");
+  ht1.insert("panther");
+  ht1.insert("bear");
+  ht1.insert("wolf");
+
+// search
+  cout << "search" << endl;
+  string test1 = "frog";
+  string test2 = "camel";
+  cout << test1 << ": " << ht1.search(test1) << endl;
+  cout << test2 << ": " << ht1.search(test2) << endl;
+ 
+  // copy constructor and remove
+  HashTable ht2(ht1);
+  ht2.insert("bat");
+  ht2.insert("cat");
+  ht2.insert("rhinoceros");
+  ht2.insert("ocelot");
+ // ht1.insert("elephant");
+ // ht1.insert("hippopotamus");
+ // ht1.insert("giraffe");
+  ht2.insert("camel");
+  ht2.insert("lion");
+  ht2.insert("panther");
+  ht2.insert("bear");
+  ht2.insert("wolf");
+  
+  ht2.remove("ocelot");
+  ht2.remove("camel");
+  ht2.remove("rhinoceros");
+
+  cout << endl << "set difference" << endl;
+  vector<string> difference = ht1.difference(ht2);
+  for(unsigned int i=0; i < difference.size(); ++i){
+         cout << difference[i] << endl;
+  }
+  return 0;
+*/
 /*
 	LinkedList ls;
 	ls.insert("apple");
@@ -90,7 +219,6 @@ int main()	{
 	test[1].print();
 	test[0].print();
 	test[1].insert("herp");
-*/
 
 
 	HashTable tester(5);
@@ -127,4 +255,7 @@ int main()	{
 	tester.unions(test1);
 	tester.difference(test1);
 
+*/
+
 }
+

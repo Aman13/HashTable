@@ -9,10 +9,27 @@ HashTable::HashTable()	{
 
 HashTable::HashTable(int n)	{
 	n = isitPrime(n);
-	std::cout <<"Custom table size" << std::endl;
 	this->table = new LinkedList[n];
 	this->prime = n;
 	this->entries = 0;
+}
+
+HashTable::~HashTable()	{
+	deleteTable();
+}
+
+HashTable::HashTable(const HashTable & source)	{
+	copyTable(source);
+}
+
+HashTable & HashTable::operator= (const HashTable & source)	{
+	
+	if(this != &source)	{
+		deleteTable();
+		copyTable(source);
+	}
+	
+	return *this;
 }
 
 
@@ -21,11 +38,8 @@ bool HashTable::insert(std::string value)	{
 	int key;
 	bool added;
 	key = hashfunction(value);
-	int hex;
-	hex = key % this->prime;
-	std::cout << "hex: " << hex << std::endl;
-	added = this->table[hex].insert(value);
-	this->table[hex].print();
+	added = this->table[key].insert(value);
+	this->table[key].print();
 	if(added)	{
 		entries++;
 	}
@@ -35,11 +49,9 @@ bool HashTable::insert(std::string value)	{
 bool HashTable::remove(std::string value)	{
 	std::cout <<"Hash table remove" << std::endl;
 	int key;
-	int hex;
 	bool removed;
 	key = hashfunction(value);
-	hex = key % this->prime;
-	removed = this->table[hex].remove(value);
+	removed = this->table[key].remove(value);
 	if(removed)	{
 		entries--;
 	}
@@ -50,25 +62,21 @@ int HashTable::hashfunction(std::string value)	{
 	std::cout <<"Hash table hasfunction" << std::endl;
 	int hash = 0;
 	int index = 0;
-	int exponent = 0;
+	
 	index = value.length();
 
 	for(int i = 0; i < index; i++)	{
-		exponent = std::pow(32,(index-1-i));
-		hash = hash + (value[i] - 96)*exponent;
+		hash = (32 * hash + (value[i] - 96)) % this->prime;
 	}
 	std::cout <<"Hash value is: " << hash << std::endl;
 	return hash;
-
 }
 
 bool HashTable::search(std::string value)	{
 	int key;
-	int hex;
 	bool found;
 	key = hashfunction(value);
-	hex = key % this->prime;
-	found = this->table[hex].search(value);
+	found = this->table[key].search(value);
 
 	return found;
 }
@@ -108,14 +116,11 @@ int HashTable::isitPrime(int n)	{
 	return n;
 }
 
-std::vector<std::string> HashTable::intersection(const HashTable & source){
+std::vector<std::string> HashTable::intersection(const HashTable & source)	const {
 	std::vector<std::string> main;
 	std::vector<std::string> copy;
 	std::vector<std::string> temp;
 	std::vector<std::string> final;
-
-	std::cout << "entering intersection" << std::endl << "main size: " << this->prime << std::endl <<
-	"copy size: " << source.prime << std::endl;
 
 	for(int i = 0; i < this->prime; i++)	{
 		temp = this->table[i].get();
@@ -165,14 +170,11 @@ std::vector<std::string> HashTable::intersection(const HashTable & source){
 
 }
 
-std::vector<std::string> HashTable::unions(const HashTable & source){
+std::vector<std::string> HashTable::unions(const HashTable & source)	const {
 	std::vector<std::string> main;
 	std::vector<std::string> copy;
 	std::vector<std::string> temp;
 	std::vector<std::string> final;
-
-	std::cout << "entering union" << std::endl << "main size: " << this->prime << std::endl <<
-	"copy size: " << source.prime << std::endl;
 
 	for(int i = 0; i < this->prime; i++)	{
 		temp = this->table[i].get();
@@ -226,14 +228,11 @@ std::vector<std::string> HashTable::unions(const HashTable & source){
 	return final;
 }
 
-std::vector<std::string> HashTable::difference(const HashTable & source){
+std::vector<std::string> HashTable::difference(const HashTable & source)	const {
 	std::vector<std::string> main;
 	std::vector<std::string> copy;
 	std::vector<std::string> temp;
 	std::vector<std::string> final;
-
-	std::cout << "difference union" << std::endl << "main size: " << this->prime << std::endl <<
-	"copy size: " << source.prime << std::endl;
 
 	for(int i = 0; i < this->prime; i++)	{
 		temp = this->table[i].get();
@@ -282,5 +281,29 @@ std::vector<std::string> HashTable::difference(const HashTable & source){
 
 	return final;
 
+}
 
+void HashTable::deleteTable()	{
+	for(int i = 0; i < this->prime; i++)	{
+		this->table[i].deleteList();
+	}
+}
+
+void HashTable::copyTable(const HashTable & source)	{
+	std::vector<std::string> temp;
+	std::string s1;
+
+	this->prime = source.prime;
+	this->entries = source.entries;
+	this->table = new LinkedList[this->prime];
+
+	for(int j = 0; j < source.prime; j++)	{
+		temp = source.table[j].get();
+		if(temp.size() > 0)	{
+			for(unsigned int i = 0; i < temp.size(); i++)	{
+				s1 = temp[i];
+				this->table[j].insert(s1);
+			}
+		}
+	}
 }
